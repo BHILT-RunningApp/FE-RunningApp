@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_appp/authentication.dart';
 
 class SignupPage extends StatefulWidget{
 
+  final Function toogle;
+  SignupPage({this.toogle})
   @override
 
   _SignupPageState createState() => _SignupPageState();
@@ -52,11 +55,16 @@ class _SignupPageState extends State<SignupPage>{
               validator: (input)=> input.isEmpty? 'Please type in your password': null ,
               onSaved: (input) =>  _password = input,
               decoration: InputDecoration(labelText: 'password'),
+              obscureText: true,
             ),
             RaisedButton(
                 onPressed: validateSave,
                 child:Text('Sign up')
-            )
+            ),
+            FlatButton(
+              onPressed: widget.toogle(),
+              child: Text('Log in'),
+            ),
           ],
         ),
       ),
