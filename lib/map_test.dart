@@ -25,8 +25,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var points = <LatLng>[
-    new LatLng(53.2832, -2.1503),
-    new LatLng(53.4774, -2.2309)
+    new LatLng(53.457928, -2.2267789),
+    new LatLng(53.457799, -2.2266948),
+    new LatLng(53.4577882, -2.2268236),
+    new LatLng(53.4587109, -2.2297847),
+    new LatLng(53.4588504, -2.2301602),
+    new LatLng(53.4604061, -2.2331107),
+    new LatLng(53.4604383, -2.2355998),
+    new LatLng(53.4615648, -2.2355354),
+    new LatLng(53.4618223, -2.2358572)
   ];
 
   @override
@@ -50,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Center(
               child: new FlutterMap(
                   options: new MapOptions(
-                      center: new LatLng(53.4774, -2.2309), minZoom: 5.0),
+                      center: new LatLng(53.457928, -2.2267789), minZoom: 5.0),
                   layers: [
                 new TileLayerOptions(
                     urlTemplate:
@@ -60,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           "pk.eyJ1IjoiY2hhbmNheWwiLCJhIjoiY2szc2tsNHJzMDdkMzNvbW5yNXZwejl2ZiJ9.Qp2kV0-P22Z52DxjV3q1qg",
                       "id": "mapbox.mapbox-streets-v7"
                     }),
+//                 // CAN USE MarkerLayerOptions FOR CURRENT LOCATION - NEED TO GET INFORMATION FROM HOME_ONE
 //                  new MarkerLayerOptions(markers: [
 //                    new Marker(
 //                        width: 15.0,
