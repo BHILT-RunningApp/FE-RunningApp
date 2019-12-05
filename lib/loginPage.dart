@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_appp/authentication.dart';
 
 class LoginPage extends StatefulWidget{
+  final Function toogle;
+  LoginPage({this.toogle});
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -58,7 +61,12 @@ class _LoginPageState extends State<LoginPage> {
             RaisedButton(
               onPressed: validateSave,
               child:Text('Sign in')
-            )
+            ),
+            FlatButton(
+              onPressed: widget.toogle(),
+              child: Text('Sign up'),
+            ),
+          ],
 
           ]
         )
