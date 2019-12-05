@@ -24,50 +24,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<LocationResult> locations = [];
-  StreamSubscription<LocationResult> streamSubscription;
-  bool trackLocation = false;
-
-  @override
-  initState() {
-    super.initState();
-    checkGps();
-
-    trackLocation = false;
-    locations = [];
-  }
-
-  getLocation() {
-    if (trackLocation) {
-      setState(() => trackLocation = false);
-      streamSubscription.cancel();
-      streamSubscription = null;
-    } else {
-      setState(() => trackLocation = true);
-      streamSubscription = Geolocation.locationUpdates(
-        accuracy: LocationAccuracy.best,
-        displacementFilter: 0.0,
-        inBackground: false,
-      ).listen((result) {
-        final location = result;
-        setState(() {
-          locations.add(location);
-        });
-      });
-      streamSubscription.onDone(() => setState(() {
-            trackLocation = false;
-          }));
-    }
-  }
-
-  checkGps() async {
-    final GeolocationResult result = await Geolocation.isLocationOperational();
-    if (result.isSuccessful) {
-      print("I did it!!!!!!!!!!!!!!!!");
-    } else {
-      print("Looser!");
-    }
-  }
+  var points = <LatLng>[
+    new LatLng(53.2832, -2.1503),
+    new LatLng(53.4774, -2.2309)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Container(
         decoration: new BoxDecoration(
             image: new DecorationImage(
-                image: new NetworkImage(
-                    "https://fsb.zobj.net/crop.php?r=mELUiAtFzr-X-2QfAbffs91qLa57V5bq55GEalKHUTVjPRDNdCrNwuxzPkuJ4gASCWdQjNqojiO90YHQ1jKNlign1W5Xm0WL1og--xm015YXC7LT7wVwX2AU9QX9dza1RWkA4dyRPYk_OBSG"),
-                fit: BoxFit.cover
-//               colorFilter: ColorFilter,
-                )),
+          image: AssetImage("assets/running.jpeg"),
+          fit: BoxFit.cover,
+        )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -90,32 +48,39 @@ class _MyHomePageState extends State<MyHomePage> {
             centerTitle: true,
           ),
           body: Center(
-            child: new FlutterMap(
-                options: new MapOptions(
-                    center: new LatLng(53.4774, -2.2309), minZoom: 15.0),
-                layers: [
-                  new TileLayerOptions(
-                      urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c']),
-                  new MarkerLayerOptions(markers: [
-                    new Marker(
-                        width: 15.0,
-                        height: 15.0,
-                        point: new LatLng(53.4774, -2.2309),
-                        builder: (context) => new Container(
-                              child: IconButton(
-                                icon: Icon(Icons.location_on),
-                                color: Colors.red,
-                                iconSize: 45.0,
-                                onPressed: () {
-                                  print('Marker tapped');
-                                },
-                              ),
-                            ))
-                  ])
+              child: new FlutterMap(
+                  options: new MapOptions(
+                      center: new LatLng(53.4774, -2.2309), minZoom: 5.0),
+                  layers: [
+                new TileLayerOptions(
+                    urlTemplate:
+                        "https://api.mapbox.com/styles/v1/chancayl/ck3sk6kg204rw1dru4w8zyuhr/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2hhbmNheWwiLCJhIjoiY2szc2s2MHQxMDV2NjNjbmh0eWUzbnZreSJ9.lezjaEbXhVsuOpkaKxiZiA",
+                    additionalOptions: {
+                      "accessToken":
+                          "pk.eyJ1IjoiY2hhbmNheWwiLCJhIjoiY2szc2tsNHJzMDdkMzNvbW5yNXZwejl2ZiJ9.Qp2kV0-P22Z52DxjV3q1qg",
+                      "id": "mapbox.mapbox-streets-v7"
+                    }),
+//                  new MarkerLayerOptions(markers: [
+//                    new Marker(
+//                        width: 15.0,
+//                        height: 15.0,
+//                        point: new LatLng(53.4774, -2.2309),
+//                        builder: (context) => new Container(
+//                              child: IconButton(
+//                                icon: Icon(Icons.location_on),
+//                                color: Colors.red,
+//                                iconSize: 45.0,
+//                                onPressed: () {
+//                                  print('Marker tapped');
+//                                },
+//                              ),
+//                            ))
+//                  ])
+                new PolylineLayerOptions(polylines: [
+                  new Polyline(
+                      points: points, strokeWidth: 5.0, color: Colors.red)
                 ]),
-          ),
+              ])),
           floatingActionButton: FloatingActionButton(
 //          floatingActionButtonLocation:
 //              FloatingActionButtonLocation.centerDocked,
