@@ -5,9 +5,11 @@ import 'package:new_geolocation/geolocation.dart';
 
 import 'dart:async';
 
-void main() => runApp(new Home());
+//see https://github.com/alfanhui/new_geolocation/blob/master/lib/facet_android/location.dart
 
-class Home extends StatelessWidget {
+void main() => runApp(new Maptest());
+
+class Maptest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -22,6 +24,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var points = <LatLng>[
+    new LatLng(53.457928, -2.2267789),
+    new LatLng(53.457799, -2.2266948),
+    new LatLng(53.4577882, -2.2268236),
+    new LatLng(53.4587109, -2.2297847),
+    new LatLng(53.4588504, -2.2301602),
+    new LatLng(53.4604061, -2.2331107),
+    new LatLng(53.4604383, -2.2355998),
+    new LatLng(53.4615648, -2.2355354),
+    new LatLng(53.4618223, -2.2358572)
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,11 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
       home: Container(
         decoration: new BoxDecoration(
             image: new DecorationImage(
-                image: new NetworkImage(
-                    "https://fsb.zobj.net/crop.php?r=mELUiAtFzr-X-2QfAbffs91qLa57V5bq55GEalKHUTVjPRDNdCrNwuxzPkuJ4gASCWdQjNqojiO90YHQ1jKNlign1W5Xm0WL1og--xm015YXC7LT7wVwX2AU9QX9dza1RWkA4dyRPYk_OBSG"),
-                fit: BoxFit.cover
-//               colorFilter: ColorFilter,
-                )),
+          image: AssetImage("assets/running.jpeg"),
+          fit: BoxFit.cover,
+        )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -43,32 +55,40 @@ class _MyHomePageState extends State<MyHomePage> {
             centerTitle: true,
           ),
           body: Center(
-            child: new FlutterMap(
-                options: new MapOptions(
-                    center: new LatLng(53.4774, -2.2309), minZoom: 15.0),
-                layers: [
-                  new TileLayerOptions(
-                      urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c']),
-                  new MarkerLayerOptions(markers: [
-                    new Marker(
-                        width: 15.0,
-                        height: 15.0,
-                        point: new LatLng(53.4774, -2.2309),
-                        builder: (context) => new Container(
-                              child: IconButton(
-                                icon: Icon(Icons.location_on),
-                                color: Colors.red,
-                                iconSize: 45.0,
-                                onPressed: () {
-                                  print('Marker tapped');
-                                },
-                              ),
-                            ))
-                  ])
+              child: new FlutterMap(
+                  options: new MapOptions(
+                      center: new LatLng(53.457928, -2.2267789), minZoom: 5.0),
+                  layers: [
+                new TileLayerOptions(
+                    urlTemplate:
+                        "https://api.mapbox.com/styles/v1/chancayl/ck3sk6kg204rw1dru4w8zyuhr/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2hhbmNheWwiLCJhIjoiY2szc2s2MHQxMDV2NjNjbmh0eWUzbnZreSJ9.lezjaEbXhVsuOpkaKxiZiA",
+                    additionalOptions: {
+                      "accessToken":
+                          "pk.eyJ1IjoiY2hhbmNheWwiLCJhIjoiY2szc2tsNHJzMDdkMzNvbW5yNXZwejl2ZiJ9.Qp2kV0-P22Z52DxjV3q1qg",
+                      "id": "mapbox.mapbox-streets-v7"
+                    }),
+//                 // CAN USE MarkerLayerOptions FOR CURRENT LOCATION - NEED TO GET INFORMATION FROM HOME_ONE
+//                  new MarkerLayerOptions(markers: [
+//                    new Marker(
+//                        width: 15.0,
+//                        height: 15.0,
+//                        point: new LatLng(53.4774, -2.2309),
+//                        builder: (context) => new Container(
+//                              child: IconButton(
+//                                icon: Icon(Icons.location_on),
+//                                color: Colors.red,
+//                                iconSize: 45.0,
+//                                onPressed: () {
+//                                  print('Marker tapped');
+//                                },
+//                              ),
+//                            ))
+//                  ])
+                new PolylineLayerOptions(polylines: [
+                  new Polyline(
+                      points: points, strokeWidth: 5.0, color: Colors.red)
                 ]),
-          ),
+              ])),
           floatingActionButton: FloatingActionButton(
 //          floatingActionButtonLocation:
 //              FloatingActionButtonLocation.centerDocked,

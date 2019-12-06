@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "dart:async";
 import "dart:convert";
 import 'package:http/http.dart' as http;
-import 'package:convert/convert.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -16,19 +15,23 @@ class MapData extends StatefulWidget {
 }
 
 class MapDataState extends State<MapData> {
-  String url =
-      "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=Txymz9FTINQege2cDfHs&app_code=IKjwYCNr4_RL87uEk4TvSQ&waypoint0=geo!53.457915,-2.226825&waypoint1=geo!53.487144,-2.248454&mode=fastest;pedestrian;traffic:disabled";
+  var data;
 
+  List<Map<String, dynamic>> coordinates = [];
   Future<String> getMapPoints() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-//    print(response.body);
-    List data;
-    var extractdata = JSON.decode(response.body);
-    data = extractdata["response"];
-
-    print(data["route"]);
-    print(data[0]["name"]["first"]);
+    http.Response response = await http.get(
+        'https://route.api.here.com/routing/7.2/calculateroute.json?app_id=Txymz9FTINQege2cDfHs&app_code=IKjwYCNr4_RL87uEk4TvSQ&waypoint0=geo!53.457915,-2.226825&waypoint1=geo!53.487144,-2.248454&mode=fastest;pedestrian;traffic:disabled');
+    setState(() {
+      data = json.decode(response.body);
+    });
+    var coord = data['response']['route'][0]['leg'][0]['maneuver'];
+    for (var waypoint in coord) {
+      coordinates.add(waypoint['position']);
+    }
+//    for (var i =0; i<coordinates.length; i++){
+//
+//    }
+    print(coordinates);
   }
 
   @override
