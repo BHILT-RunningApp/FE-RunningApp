@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:running_man/map_test.dart';
+import 'package:running_man/data.dart';
 
 //on home_map you can find the Leaflet map using openstreetmap. This is set with LatLng (set at Man Piccadilly)
 //at the moment, geolocation is a list of realtime coordinates and can be found in home_one
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'HomePage demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Maptest());
+//        theme: ThemeData(
+//          primarySwatch: Colors.blue,
+//        ),
+        home: MapData());
   }
 }
